@@ -6,9 +6,15 @@ import App from './App';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './modules';
-import Logger from './middlewares/myLogger';
+import logger from 'redux-logger';
+import { composeWithDevTools } from 'redux-devtools-extension'
+import ReduxThunk from 'redux-thunk';
 
-const store = createStore(rootReducer, applyMiddleware(Logger));
+const store = createStore(
+  rootReducer,
+  // logger 사용할 경우 항상 마지막에 위치해야 함
+  composeWithDevTools(applyMiddleware(ReduxThunk,logger))  
+);
 
 ReactDOM.render(
   <Provider store={store}>
